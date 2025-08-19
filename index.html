@@ -1,40 +1,47 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="vendors/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/estilos.css">
-
-    <title>Relojes del Mundo con JavaScript</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link rel="stylesheet" href="vendors/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <title>Relojes del Mundo con JS y JQuery</title>
   </head>
-  <body>
-    <hr class="mt-5">
+  <body class="container">
     <h1 class="my-3 text-center">Relojes del mundo</h1>
-    <hr>
-    <div class="mt-5 container">
-        <div class="row justify-content-around">      
-            <label class="col-2" for="horaLocal">Hora local <span id="local"></span></label>
-            <input class="col-2 form-control text-center"
-                   id="horaLocal" type="text" readonly>
-            <label for="sel-ciudades" class="col-2">Elija una ciudad</label>
-            <select id="sel-ciudades" name="sel-ciudades" class="col-2 form-control">
-            </select>        
+    <hr />
+    <div class="mt-5 container-fluid">
+      <div class="row justify-content-between">
+        <div class="col-12 col-sm-5">
+          <label for="localTime">Hora local <span id="local"></span></label>
+          <input
+            class="form-control text-center"
+            id="localTime"
+            type="text"
+            readonly
+          />
         </div>
 
-        <div class="card-deck mt-5 text-center">
+        <div class="col-12 col-sm-5">
+          <label for="sel-cities">Elija una ciudad</label>
+          <select
+            id="sel-cities"
+            name="sel-cities"
+            class="form-control"
+          ></select>
         </div>
+      </div>
+
+      <!-- Dynamic content watches -->
+      <div class="mt-5 text-center"></div>
     </div>
 
-    <!-- JS necesario para Bootstrap -->
-    <script src="vendors/jquery-3.5.1.min.js"></script>
-    <script src="vendors/popper.min.js"></script>
-    <script src="vendors/bootstrap/js/bootstrap.min.js"></script>
-    <!-- Archivo JSON-->
-    <script src="data/ciudades.js"></script>
-    <!-- JS propio -->
+    <script src="vendors/jquery-3.7.1.slim.min.js"></script>
+    <script src="vendors/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="data/cities.js"></script>
     <script src="js/script.js"></script>
-</body>
+  </body>
 </html>

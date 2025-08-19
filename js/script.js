@@ -1,3 +1,4 @@
+/*
 let num_relojes = 0;
 
 // Cuando se haya renderizado todo el documento, que ejecute iniciar
@@ -100,3 +101,4 @@ function actualizar_clases_css(){
             break;
     }
 }
+*/
