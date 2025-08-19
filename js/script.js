@@ -49,7 +49,17 @@ function addClock(clock) {
   addClockToHTML(clock);
 }
 
+function getExternalTime(clock) {
+  let externalFormat = Intl.DateTimeFormat("es-ES", {
+    timeZone: clock.zone,
+    timeStyle: "medium",
+  });
+  return externalFormat.format(localTimeAndDate);
+}
+
 function addClockToHTML(clock) {
+  let externalDate = getExternalTime(clock);
+
   const card = `
     <div class="card col-12 col-sm-5">
         <div class="card-header">
@@ -61,6 +71,7 @@ function addClockToHTML(clock) {
             </div>
         </div>
         <div class="card-body">
+          ${externalDate}
         </div>
     </div>
   `;
@@ -75,11 +86,6 @@ function addClockToHTML(clock) {
 
   // Render external clock every second
   setInterval(() => {
-    let externalFormat = Intl.DateTimeFormat("es-ES", {
-      timeZone: clock.zone,
-      timeStyle: "medium",
-    });
-    let externalDate = externalFormat.format(localTimeAndDate);
-    cardElement.find(".card-body").html(externalDate);
+    cardElement.find(".card-body").html(getExternalTime(clock));
   }, 1000);
 }
