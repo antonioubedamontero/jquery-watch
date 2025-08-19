@@ -1,104 +1,85 @@
-/*
-let num_relojes = 0;
+const MAX_CLOCKS = 5;
+let clocks = [];
+let localTimeAndDate;
 
-// Cuando se haya renderizado todo el documento, que ejecute iniciar
-$("document").ready(iniciar);
+$("document").ready(start);
 
-function iniciar(){
-    // cargar las ciudades de las cuales podemos saber la hora
-    let ciudades=data_ciudades;
+function start() {
+  // load cities
+  let cities = data_cities;
+  loadCities(cities);
 
-    // Renderizamos la hora local cada segundo
-    setInterval(() => {
-        $("#horaLocal").val((new Date).toLocaleTimeString());           
-    }, 1000);
+  // Render local time every second
+  setInterval(() => {
+    localTimeAndDate = new Date();
+    $("#localTime").val(localTimeAndDate.toLocaleTimeString());
+  }, 1000);
 
-    // Cargar el combo de ciudades
-    cargar_ciudades(ciudades);
-
-    // Agregar listeners para seleccion de elementos
-    $("#sel-ciudades option").click(function(){
-       if (num_relojes > 3){
-          alert("No puede añadir más relojes. Debe eliminar antes uno de los existentes.");
-       }else{
-          agregar_reloj(this.value, this.text);
-          // Agregamos listener al ultimo reloj agregado para cerrar tarjeta
-          $(".card-header button:last").click(eliminar_reloj);
-       }
-    });   
+  // Add listener to select change for add or remove clock
+  $("#sel-cities").change(function () {
+    const selectedCity = $(this).find("option:selected");
+    const clock = {
+      city: selectedCity.text(),
+      zone: selectedCity.val(),
+    };
+    addClock(clock);
+  });
 }
 
-function cargar_ciudades(ciudades){
-    for (let ciudad of ciudades){
-        $("#sel-ciudades").append(`<option value="${ciudad.zona}">${ciudad.ciudad}</option>`)
-    }
+function loadCities(cities) {
+  for (let city of cities) {
+    $("#sel-cities").append(
+      `<option value="${city.zone}">${city.city}</option>`
+    );
+  }
 }
 
-function agregar_reloj(zona, ciudad){
-    // Incrementamos el número de relojes
-    num_relojes++;   
-    actualizar_clases_css();
+function addClock(clock) {
+  const foundClock = clocks.find((clockItem) => clockItem.city === clock.city);
 
-    // Agregamos el nuevo reloj al card deck y ponemos la hora más grande
-    $(".card-deck").append(`
-        <div class="card">
-            <div class="card-header">
-                <div class="row">
-                    <h2 id="titleHora1" class="card-title col-10">${ciudad}</h2>
-                    <button class="btn btn-outline-danger col-2" type="button">X</button>
-                </div>
-            </div>
-            <div class="card-body">
-                <p class="badge p-2 badge-success"></p>
+  if (foundClock) {
+    return alert(`El reloj ${clock.city} ya existe`);
+  }
+
+  if (!foundClock && clocks.length === MAX_CLOCKS) {
+    return alert("Número máximo de relojes alcanzado");
+  }
+
+  clocks.push(clock);
+  addClockToHTML(clock);
+}
+
+function addClockToHTML(clock) {
+  const card = `
+    <div class="card col-12 col-sm-5">
+        <div class="card-header">
+            <div class="container">
+              <div class="row justify-content-between align-items-center">
+                <strong class="col-8">${clock.city}</strong>
+                <button class="col-2 btn btn-outline-danger close-btn" type="button">X</button>
+              </div>
             </div>
         </div>
-    `);
+        <div class="card-body">
+        </div>
+    </div>
+  `;
+  const cardElement = $(card);
 
-    let tarjeta = $(".card-deck .card:last p");
-    tarjeta.css("font-size","3em");
+  // Add listener to close button in clock card
+  $("#clocks").append(cardElement);
+  cardElement.find(".close-btn").click(function () {
+    cardElement.remove();
+    clocks = clocks.filter((clockItem) => clockItem.city !== clock.city);
+  });
 
-    //Renderizamos la hora cada segundo
-    setInterval(() => {
-        let formato = Intl.DateTimeFormat("es-ES",{
-            timeZone: zona,
-            timeStyle: "medium"
-        });
-        let hora = formato.format(new Date);
-
-        tarjeta.text(hora);
-        tarjeta.toggleClass("azul");    
-    }, 1000);   
+  // Render external clock every second
+  setInterval(() => {
+    let externalFormat = Intl.DateTimeFormat("es-ES", {
+      timeZone: clock.zone,
+      timeStyle: "medium",
+    });
+    let externalDate = externalFormat.format(localTimeAndDate);
+    cardElement.find(".card-body").html(externalDate);
+  }, 1000);
 }
-
-function eliminar_reloj(){
-    // Decrementamos el número de relojes
-    num_relojes--; 
-     
-    // eliminamos la tarjeta
-    let tarjeta = this.closest(".card");
-    tarjeta.remove();
-    
-    actualizar_clases_css();
-}
-
-function actualizar_clases_css(){
-    //  Eliminamos las clases previas que pudiera haber
-    $(".card-deck").removeClass("w-25 w-50 w-75 w-100");
-
-    switch (num_relojes) {
-        case 0:
-        case 1:    
-            $(".card-deck").addClass("w-25");   
-            break;
-        case 2:
-            $(".card-deck").addClass("w-50");
-            break;
-        case 3:
-            $(".card-deck").addClass("w-75");
-            break;
-        default:
-            $(".card-deck").addClass("w-100");
-            break;
-    }
-}
-*/

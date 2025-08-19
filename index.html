@@ -10,11 +10,11 @@
     <link rel="stylesheet" href="css/styles.css" />
     <title>Relojes del Mundo con JS y JQuery</title>
   </head>
-  <body class="container">
+  <body class="px-0 px-5">
     <h1 class="my-3 text-center">Relojes del mundo</h1>
     <hr />
-    <div class="mt-5 container-fluid">
-      <div class="row justify-content-between">
+    <div class="mt-2 mt-sm-5 px-0 container">
+      <div class="row">
         <div class="col-12 col-sm-5">
           <label for="localTime">Hora local <span id="local"></span></label>
           <input
@@ -35,8 +35,12 @@
         </div>
       </div>
 
+      <hr class="mt-5" />
+
       <!-- Dynamic content watches -->
-      <div class="mt-5 text-center"></div>
+      <div id="clocks-container" class="mt-2 mt-sm-5 text-center container">
+        <div id="clocks" class="row gap-5"></div>
+      </div>
     </div>
 
     <script src="vendors/jquery-3.7.1.slim.min.js"></script>
